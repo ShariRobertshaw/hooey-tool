@@ -15,8 +15,8 @@ export interface ResponsiveSizes {
 
 /**
  * Get responsive sizes based on width
- * Small sizes (≤600px): 24px margin
- * Larger sizes (>600px): 40px margin
+ * Small sizes (≤600px): Email Header - smaller pills, tighter notch gap
+ * Larger sizes (>600px): Social media - larger pills (28px type)
  */
 export function getResponsiveSizes(width: number): ResponsiveSizes {
   if (width <= 600) {
@@ -28,18 +28,19 @@ export function getResponsiveSizes(width: number): ResponsiveSizes {
       iconSize: 14,
       titleFontSize: 18,
       descriptionFontSize: 14,
-      notchGap: 10, // Tighter gap for small sizes
+      notchGap: 8, // Reduced gap for email
     };
   } else {
     // Larger sizes: Instagram, Facebook, Twitter, Web Banner (all >600px)
+    // Pills use 28px type with 12px padding
     return {
       padding: 40,
-      pillFontSize: 18,
+      pillFontSize: 28,
       pillPadding: 12,
-      iconSize: 18,
+      iconSize: 28,
       titleFontSize: 28,
       descriptionFontSize: 18,
-      notchGap: 12, // Tighter gap - notches hug pills closely
+      notchGap: 12,
     };
   }
 }
