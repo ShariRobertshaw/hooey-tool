@@ -27,7 +27,6 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
   const [pillDimensions, setPillDimensions] = useState<Map<string, { width: number; height: number }>>(new Map());
   const [logoDimensions, setLogoDimensions] = useState<{ width: number; height: number } | null>(null);
   const [notchesWithSizes, setNotchesWithSizes] = useState<Notch[]>(config.notches);
-  const [uniformNotchHeight, setUniformNotchHeight] = useState<number>(0);
 
   const geometry = calculateGeometry(config);
   const { width, height, cornerRadius } = geometry;
@@ -100,7 +99,6 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
     
     // Find maximum notch height and apply to all notches
     const maxHeight = notchHeights.length > 0 ? Math.max(...notchHeights) : 0;
-    setUniformNotchHeight(maxHeight);
     
     const updatedNotches = tempNotches.map(notch => ({
       ...notch,
