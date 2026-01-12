@@ -129,7 +129,7 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
     ? BRAND_COLORS.BEIGE
     : BRAND_COLORS.DARK_TEAL;
 
-  // Calculate pill positions - pills sit INSIDE notches with equal padding
+  // Calculate pill positions - pills sit INSIDE notches, centered vertically
   const getPillPosition = (pill: PillConfig) => {
     const notch = notchesWithSizes.find(n => n.corner === pill.position.toUpperCase().replace('-', '_'));
     
@@ -150,20 +150,22 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
       }
     }
     
-    // Pill sits inside notch with equal gap all around
+    // Pill sits inside notch with horizontal gap, centered vertically
     const gap = responsiveSizes.notchGap;
+    const pillDims = pillDimensions.get(pill.id);
+    const verticalGap = pillDims ? (notch.height - pillDims.height) / 2 : gap;
     
     switch (pill.position) {
       case 'top-left':
-        return { x: gap, y: gap };
+        return { x: gap, y: verticalGap };
       case 'top-right':
-        return { x: innerWidth - notch.width + gap, y: gap };
+        return { x: innerWidth - notch.width + gap, y: verticalGap };
       case 'bottom-left':
-        return { x: gap, y: shapeHeight - notch.height + gap };
+        return { x: gap, y: shapeHeight - notch.height + verticalGap };
       case 'bottom-right':
-        return { x: innerWidth - notch.width + gap, y: shapeHeight - notch.height + gap };
+        return { x: innerWidth - notch.width + gap, y: shapeHeight - notch.height + verticalGap };
       default:
-        return { x: gap, y: gap };
+        return { x: gap, y: verticalGap };
     }
   };
 
@@ -232,15 +234,7 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
           
           const position = getPillPosition(pill);
           
-          // Scale pill to fill uniform notch height if needed
-          const notch = notchesWithSizes.find(n => n.corner === pill.position.toUpperCase().replace('-', '_'));
-          const pillDims = pillDimensions.get(pill.id);
-          let scaleY = 1;
-          if (notch && pillDims && uniformNotchHeight > 0) {
-            const availableHeight = uniformNotchHeight - (responsiveSizes.notchGap * 2);
-            scaleY = availableHeight / pillDims.height;
-          }
-          
+          // Don't scale pills - they maintain their natural size
           return (
             <g 
               key={pill.id} 
@@ -249,7 +243,7 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
                   pillRefs.current.set(pill.id, el);
                 }
               }}
-              transform={`translate(${position.x}, ${position.y}) scale(1, ${scaleY})`}
+              transform={`translate(${position.x}, ${position.y})`}
             >
               <Pill
                 icon={pill.icon}
@@ -270,10 +264,10 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
             ref={logoRef}
             transform={`translate(${getLogoPosition().x}, ${getLogoPosition().y})`}
           >
-            {/* Logo scaled to 55px height for large formats, 18px for email */}
+            {/* Logo scaled to 42px height for large formats, 18px for email */}
             <svg 
-              width={width <= 600 ? "56" : "170"} 
-              height={width <= 600 ? "18" : "55"} 
+              width={width <= 600 ? "56" : "131"} 
+              height={width <= 600 ? "18" : "42"} 
               viewBox="0 0 56 18" 
               fill="none"
               preserveAspectRatio="xMidYMid meet"
