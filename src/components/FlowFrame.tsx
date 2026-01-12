@@ -167,8 +167,10 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
       case 'bottom-left':
         return { x: gap, y: shapeHeight - notch.height + verticalGap };
       case 'bottom-right':
+        // Email header: flush right (innerWidth - pillWidth)
+        // Others: standard gap from notch edge
         return { 
-          x: isEmailHeader ? (innerWidth - notch.width + (notch.width - (pillDims?.width || 0))) : (innerWidth - notch.width + gap), 
+          x: isEmailHeader && pillDims ? (innerWidth - pillDims.width) : (innerWidth - notch.width + gap), 
           y: shapeHeight - notch.height + verticalGap 
         };
       default:
