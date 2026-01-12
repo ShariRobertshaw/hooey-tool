@@ -32,12 +32,12 @@ export function getResponsiveSizes(width: number): ResponsiveSizes {
     };
   } else {
     // Larger sizes: Instagram, Facebook, Twitter, Web Banner (all >600px)
-    // Pills use 28px type with 12px padding
+    // Pills use 18px type with 20px icons, 12px equal padding
     return {
       padding: 40,
-      pillFontSize: 28,
+      pillFontSize: 18,
       pillPadding: 12,
-      iconSize: 28,
+      iconSize: 20,
       titleFontSize: 28,
       descriptionFontSize: 18,
       notchGap: 12,
