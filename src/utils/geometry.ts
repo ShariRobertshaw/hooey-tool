@@ -14,7 +14,7 @@ import type { FrameConfig, GeometryCalculation, Notch } from '../types';
  * Calculate corner radius - Fixed at 10% of shape height
  */
 export function calculateCornerRadius(
-  width: number,
+  _width: number,
   shapeHeight: number
 ): number {
   return shapeHeight * 0.10; // 10% of shape height

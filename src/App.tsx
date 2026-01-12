@@ -3,7 +3,7 @@
  * Manages state and coordinates between FlowFrame and ControlPanel
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { FlowFrame } from './components/FlowFrame';
 import { ControlPanel } from './components/ControlPanel';
 import type { FrameConfig } from './types';

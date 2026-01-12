@@ -12,7 +12,7 @@ interface IconProps {
 }
 
 export const Icon: React.FC<IconProps> = ({ icon, size = 20, color = '#8CDB1F' }) => {
-  if (icon === 'NONE' || icon === '') {
+  if (icon === 'NONE') {
     return null;
   }
 
@@ -30,7 +30,7 @@ export const Icon: React.FC<IconProps> = ({ icon, size = 20, color = '#8CDB1F' }
   }
 
   // Location pin icon
-  if (icon === 'location-pin' || icon === 'LOCATION_PIN') {
+  if (icon === 'LOCATION_PIN') {
     return (
       <svg width={size} height={size} viewBox="0 0 28 28" fill="none">
         <circle cx="14" cy="14" r="1.3762" stroke={color} strokeWidth="1.24761"/>
@@ -40,7 +40,7 @@ export const Icon: React.FC<IconProps> = ({ icon, size = 20, color = '#8CDB1F' }
   }
 
   // Event pin icon (location pin with target)
-  if (icon === 'event-pin' || icon === 'EVENT_PIN') {
+  if (icon === 'EVENT_PIN') {
     return (
       <svg width={size} height={size * 1.2} viewBox="0 0 28 34" fill="none">
         <circle cx="14" cy="11.5" r="1.45541" stroke={color} strokeWidth="1.24761"/>

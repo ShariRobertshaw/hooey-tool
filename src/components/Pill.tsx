@@ -28,7 +28,7 @@ export const Pill: React.FC<PillProps> = ({
   iconSize,
   forceWhiteText = false,
 }) => {
-  const hasIcon = icon !== 'NONE' && icon !== '';
+  const hasIcon = icon !== 'NONE';
   const textColor = forceWhiteText ? BRAND_COLORS.BEIGE : BRAND_COLORS.LIME_GREEN;
   
   // Calculate pill dimensions

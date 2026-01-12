@@ -9,7 +9,6 @@ import type { FrameConfig, PillConfig, Notch } from '../types';
 import {
   calculateGeometry,
   generateFramePath,
-  calculateNotchDimensions,
 } from '../utils/geometry';
 import { getResponsiveSizes } from '../utils/responsive';
 import { Pill } from './Pill';

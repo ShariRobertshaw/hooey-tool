@@ -1,4 +1,4 @@
-import type { OutputSizeKey, RadiusScale, BrandColor, CornerPosition, IconKey } from '../tokens/design-tokens';
+import type { OutputSizeKey, BrandColor, CornerPosition, IconKey } from '../tokens/design-tokens';
 
 export type FillType = 'solid' | 'image';
 
