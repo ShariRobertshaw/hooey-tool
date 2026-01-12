@@ -41,12 +41,16 @@ export function calculateGeometry(config: FrameConfig): GeometryCalculation {
 }
 
 /**
- * Get notch corner radius - same as main corner radius
- * Padding is calculated to ensure notches are always large enough
+ * Get notch corner radius - tries to match main radius but scales down for small notches
  */
 function getNotchCornerRadius(notch: Notch, mainRadius: number): number {
-  // All corners use the same radius (10% of height)
-  return mainRadius;
+  // Notch corner radius can't be more than half the smallest dimension
+  const maxPossible = Math.min(notch.width, notch.height) / 2;
+  
+  // Try to use main radius, but scale down proportionally if needed
+  const safeRadius = Math.min(mainRadius, maxPossible * 0.9); // 90% for safe geometry
+  
+  return safeRadius;
 }
 
 /**

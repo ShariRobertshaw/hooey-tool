@@ -16,6 +16,7 @@ interface PillProps {
   fontSize: number;
   padding: number;
   iconSize: number;
+  forceWhiteText?: boolean;
 }
 
 export const Pill: React.FC<PillProps> = ({ 
@@ -25,8 +26,10 @@ export const Pill: React.FC<PillProps> = ({
   fontSize,
   padding,
   iconSize,
+  forceWhiteText = false,
 }) => {
   const hasIcon = icon !== 'NONE' && icon !== '';
+  const textColor = forceWhiteText ? BRAND_COLORS.BEIGE : BRAND_COLORS.LIME_GREEN;
   
   // Calculate pill dimensions
   const textWidth = text.length * fontSize * 0.55; // Approximate
@@ -57,7 +60,7 @@ export const Pill: React.FC<PillProps> = ({
       {/* Icon (if present) */}
       {hasIcon && (
         <g transform={`translate(${padding}, ${pillHeight / 2 - iconSize / 2})`}>
-          <Icon icon={icon} size={iconSize} color={BRAND_COLORS.LIME_GREEN} />
+          <Icon icon={icon} size={iconSize} color={textColor} />
         </g>
       )}
       
@@ -70,7 +73,7 @@ export const Pill: React.FC<PillProps> = ({
           fontSize: fontSize,
           fontWeight: TYPOGRAPHY.PILL_TEXT.fontWeight,
           fontFamily: TYPOGRAPHY.PILL_TEXT.fontFamily,
-          fill: BRAND_COLORS.LIME_GREEN,
+          fill: textColor,
         }}
       >
         {text}

@@ -33,6 +33,10 @@ export interface PillConfig {
   backgroundColor: BrandColor;
 }
 
+export interface LogoConfig {
+  visible: boolean;
+}
+
 export interface TextContent {
   title: string;
   description: string;
@@ -53,6 +57,9 @@ export interface FrameConfig {
   
   // Pill components (multiple pills)
   pills: PillConfig[];
+  
+  // Logo (optional, in notch)
+  logo?: LogoConfig;
   
   // Text area
   textContent: TextContent;

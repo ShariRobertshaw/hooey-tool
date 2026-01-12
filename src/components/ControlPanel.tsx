@@ -123,6 +123,38 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ config, onConfigChan
     });
   };
 
+  const handleLogoToggle = () => {
+    const isCurrentlyVisible = config.logo?.visible || false;
+    
+    if (isCurrentlyVisible) {
+      // Hide logo and remove notch
+      const newNotches = config.notches.filter(n => n.id !== 'notch-logo');
+      onConfigChange({
+        ...config,
+        logo: {
+          visible: false,
+        },
+        notches: newNotches,
+      });
+    } else {
+      // Show logo and add notch (always top-right)
+      const newNotches = config.notches.filter(n => n.id !== 'notch-logo'); // Remove any existing
+      const logoNotch = {
+        corner: 'TOP_RIGHT' as CornerPosition,
+        id: 'notch-logo',
+        width: 80,
+        height: 40,
+      };
+      onConfigChange({
+        ...config,
+        logo: {
+          visible: true,
+        },
+        notches: [...newNotches, logoNotch],
+      });
+    }
+  };
+
   const notchedCorners = new Set(config.notches.map(n => n.corner));
 
   return (
@@ -327,6 +359,25 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ config, onConfigChan
             )}
           </div>
         ))}
+      </section>
+
+      {/* Logo */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>Logo</h3>
+        
+        <label style={styles.label}>
+          <input
+            type="checkbox"
+            checked={config.logo?.visible || false}
+            onChange={handleLogoToggle}
+            style={{ marginRight: 8 }}
+          />
+          Show Logo (Top Right)
+        </label>
+        
+        <p style={{ fontSize: 11, color: '#6c757d', marginTop: 8 }}>
+          Logo color changes to white on dark backgrounds
+        </p>
       </section>
 
       {/* Text Content */}
