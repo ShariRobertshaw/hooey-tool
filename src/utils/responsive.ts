@@ -27,7 +27,7 @@ export function getResponsiveSizes(width: number): ResponsiveSizes {
       pillFontSize: 14,
       pillPadding: 8,
       iconSize: 14,
-      titleFontSize: 18,
+      titleFontSize: 20, // Increased from 18px
       descriptionFontSize: 14,
       notchGap: 8, // Reduced gap for email
     };

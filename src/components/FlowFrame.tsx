@@ -153,15 +153,24 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
     const pillDims = pillDimensions.get(pill.id);
     const verticalGap = pillDims ? (notch.height - pillDims.height) / 2 : gap;
     
+    // Email header: flush left for top-left, flush right for bottom-right
+    const isEmailHeader = width <= 600;
+    
     switch (pill.position) {
       case 'top-left':
-        return { x: gap, y: verticalGap };
+        return { 
+          x: isEmailHeader ? 0 : gap, 
+          y: verticalGap 
+        };
       case 'top-right':
         return { x: innerWidth - notch.width + gap, y: verticalGap };
       case 'bottom-left':
         return { x: gap, y: shapeHeight - notch.height + verticalGap };
       case 'bottom-right':
-        return { x: innerWidth - notch.width + gap, y: shapeHeight - notch.height + verticalGap };
+        return { 
+          x: isEmailHeader ? (innerWidth - notch.width + (notch.width - (pillDims?.width || 0))) : (innerWidth - notch.width + gap), 
+          y: shapeHeight - notch.height + verticalGap 
+        };
       default:
         return { x: gap, y: verticalGap };
     }
@@ -282,7 +291,7 @@ export const FlowFrame: React.FC<FlowFrameProps> = ({ config, onExportReady }) =
           width: innerWidth - SPACING.TEXT_AREA_PADDING * 2,
           height: textAreaHeight,
           padding: `${SPACING.TEXT_AREA_PADDING}px`,
-          paddingTop: SPACING.TEXT_AREA_PADDING * 1.5,
+          paddingTop: width <= 600 ? 24 : SPACING.TEXT_AREA_PADDING * 1.5, // 24px gap for email header
         }}
       >
         {/* Title */}
