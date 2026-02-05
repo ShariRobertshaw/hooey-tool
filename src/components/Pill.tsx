@@ -4,45 +4,42 @@
  * Responsive sizing based on frame width
  */
 
-import React from 'react';
-import { SPACING, TYPOGRAPHY, BRAND_COLORS } from '../tokens/design-tokens';
-import type { IconKey, BrandColor } from '../tokens/design-tokens';
-import { Icon } from './Icon';
+import React from "react";
+import { BACKGROUND_COLOR_MAP, IconId } from "../config/constants";
+import { Icon } from "./Icon";
 
 interface PillProps {
-  icon: IconKey;
+  icon: IconId;
   text: string;
-  backgroundColor: BrandColor;
+  colorId: keyof typeof BACKGROUND_COLOR_MAP;
   fontSize: number;
   padding: number;
+  width: number;
+  height: number;
   iconSize: number;
+  iconGap: number;
   forceWhiteText?: boolean;
 }
 
-export const Pill: React.FC<PillProps> = ({ 
-  icon, 
-  text, 
-  backgroundColor,
+export const Pill: React.FC<PillProps> = ({
+  icon,
+  text,
+  colorId,
   fontSize,
   padding,
+  width,
+  height,
   iconSize,
+  iconGap,
   forceWhiteText = false,
 }) => {
-  const hasIcon = icon !== 'NONE';
-  const textColor = forceWhiteText ? BRAND_COLORS.BEIGE : BRAND_COLORS.LIME_GREEN;
+  const hasIcon = icon !== "NONE";
+  const textColor = forceWhiteText ? "#FFFFFF" : "#8CDB1F";
   
-  // Calculate pill dimensions
-  const textWidth = text.length * fontSize * 0.55; // Approximate
   const iconWidth = hasIcon ? iconSize : 0;
-  const iconGap = hasIcon ? SPACING.ICON_TEXT_GAP : 0; // 4px gap
-  
-  // Width: padding + icon + gap (4px) + text + padding
-  const pillWidth = padding * 2 + iconWidth + iconGap + textWidth;
-  
-  // Height: padding + text height + padding
-  const pillHeight = padding * 2 + fontSize;
-  
-  const cornerRadius = pillHeight / 2; // Fully rounded ends
+  const gap = hasIcon ? iconGap : 0;
+
+  const cornerRadius = height / 2; // Fully rounded ends
   
   return (
     <g>
@@ -50,29 +47,29 @@ export const Pill: React.FC<PillProps> = ({
       <rect
         x={0}
         y={0}
-        width={pillWidth}
-        height={pillHeight}
+        width={width}
+        height={height}
         rx={cornerRadius}
         ry={cornerRadius}
-        fill={BRAND_COLORS[backgroundColor]}
+        fill={BACKGROUND_COLOR_MAP[colorId]}
       />
       
       {/* Icon (if present) */}
       {hasIcon && (
-        <g transform={`translate(${padding}, ${pillHeight / 2 - iconSize / 2})`}>
+        <g transform={`translate(${padding}, ${height / 2 - iconSize / 2})`}>
           <Icon icon={icon} size={iconSize} color={textColor} />
         </g>
       )}
       
       {/* Text */}
       <text
-        x={padding + iconWidth + iconGap}
-        y={pillHeight / 2}
+        x={padding + iconWidth + gap}
+        y={height / 2}
         dominantBaseline="middle"
         style={{
           fontSize: fontSize,
-          fontWeight: TYPOGRAPHY.PILL_TEXT.fontWeight,
-          fontFamily: TYPOGRAPHY.PILL_TEXT.fontFamily,
+          fontWeight: 600,
+          fontFamily: "system-ui, -apple-system, sans-serif",
           fill: textColor,
         }}
       >

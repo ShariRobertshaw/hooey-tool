@@ -3,49 +3,35 @@
  * Manages state and coordinates between FlowFrame and ControlPanel
  */
 
-import React, { useState } from 'react';
-import { FlowFrame } from './components/FlowFrame';
-import { ControlPanel } from './components/ControlPanel';
-import type { FrameConfig } from './types';
-import { toPng, toSvg } from 'html-to-image';
+import React, { useState } from "react";
+import { FlowFrame } from "./components/FlowFrame";
+import { ControlPanel } from "./components/ControlPanel";
+import type { FrameConfig } from "./types";
+import { toPng } from "html-to-image";
+import placeholderImage from "./assets/placeholder.svg";
 
-// Default configuration
 const defaultConfig: FrameConfig = {
-  outputSize: 'INSTAGRAM_SQUARE',
-  backgroundColor: 'BEIGE',
-  fill: {
-    type: 'solid',
-    color: 'BEIGE',
+  backgroundColor: "BEIGE",
+  imageUrl: placeholderImage,
+  pills: {
+    topLeft: {
+      enabled: true,
+      text: "In-person event",
+      icon: "EVENT_PIN",
+      color: "DARK_TEAL",
+    },
+    bottomRight: {
+      enabled: true,
+      text: "Virtual session",
+      icon: "LOCATION_PIN",
+      color: "DARK_TEAL",
+    },
   },
-  notches: [
-    { corner: 'TOP_LEFT', id: 'notch-tl', width: 280, height: 80 },
-    { corner: 'BOTTOM_RIGHT', id: 'notch-br', width: 240, height: 80 },
-  ],
-  pills: [
-    {
-      id: 'pill-1',
-      icon: 'EVENT_PIN',
-      text: 'In-person event',
-      visible: true,
-      position: 'top-left',
-      backgroundColor: 'DARK_TEAL',
-    },
-    {
-      id: 'pill-2',
-      icon: 'LOCATION_PIN',
-      text: 'San Francisco',
-      visible: true,
-      position: 'bottom-right',
-      backgroundColor: 'DARK_TEAL',
-    },
-  ],
   logo: {
-    visible: false,
+    enabled: false,
   },
-  textContent: {
-    title: 'IMP supplies for clinical trials: GMP & GDP',
-    description: 'Secondary copy line here',
-  },
+  headline: "IMP supplies for clinical trials: GMP & GDP",
+  subhead: "Secondary copy line here",
 };
 
 export const App: React.FC = () => {
@@ -77,27 +63,7 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleExportSVG = async () => {
-    if (!exportElement) return;
-    
-    setIsExporting(true);
-    try {
-      const dataUrl = await toSvg(exportElement, {
-        quality: 1,
-      });
-      
-      // Download
-      const link = document.createElement('a');
-      link.download = `flow-frame-${Date.now()}.svg`;
-      link.href = dataUrl;
-      link.click();
-    } catch (error) {
-      console.error('Export failed:', error);
-      alert('Export failed. Please try again.');
-    } finally {
-      setIsExporting(false);
-    }
-  };
+  // PNG-only export
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.25, 3));
   const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.25, 0.25));
@@ -140,13 +106,6 @@ export const App: React.FC = () => {
             style={styles.exportButton}
           >
             {isExporting ? 'Exporting...' : 'Export PNG'}
-          </button>
-          <button
-            onClick={handleExportSVG}
-            disabled={isExporting}
-            style={styles.exportButton}
-          >
-            {isExporting ? 'Exporting...' : 'Export SVG'}
           </button>
         </div>
       </div>

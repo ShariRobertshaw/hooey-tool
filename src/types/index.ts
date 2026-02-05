@@ -1,74 +1,41 @@
-import type { OutputSizeKey, BrandColor, CornerPosition, IconKey } from '../tokens/design-tokens';
+import type { BackgroundColorId, BackgroundColorValue, IconId } from "../config/constants";
 
-export type FillType = 'solid' | 'image';
-
-export interface SolidFill {
-  type: 'solid';
-  color: BrandColor;
-}
-
-export interface ImageFill {
-  type: 'image';
-  imageUrl: string;
-  imageFile?: File;
-}
-
-export type Fill = SolidFill | ImageFill;
+export type PillPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
 export interface Notch {
-  corner: CornerPosition;
-  id: string;
+  corner: PillPosition;
   width: number;
   height: number;
 }
 
-export type PillPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-
 export interface PillConfig {
-  id: string;
-  icon: IconKey;
+  enabled: boolean;
   text: string;
-  visible: boolean;
-  position: PillPosition;
-  backgroundColor: BrandColor;
+  icon: IconId;
+  color: BackgroundColorId;
 }
 
 export interface LogoConfig {
-  visible: boolean;
-}
-
-export interface TextContent {
-  title: string;
-  description: string;
+  enabled: boolean;
 }
 
 export interface FrameConfig {
-  // Output settings
-  outputSize: OutputSizeKey;
-  
-  // Background color (behind everything)
-  backgroundColor: BrandColor;
-  
-  // Base frame (radius is auto-calculated at 10% of height)
-  fill: Fill;
-  
-  // Notches (max 3, corners only)
-  notches: Notch[];
-  
-  // Pill components (multiple pills)
-  pills: PillConfig[];
-  
-  // Logo (optional, in notch)
-  logo?: LogoConfig;
-  
-  // Text area
-  textContent: TextContent;
+  backgroundColor: BackgroundColorId;
+  imageUrl: string;
+  imageFile?: File;
+  pills: {
+    topLeft: PillConfig;
+    bottomRight: PillConfig;
+  };
+  logo: LogoConfig;
+  headline: string;
+  subhead: string;
 }
 
 export interface GeometryCalculation {
   width: number;
   height: number;
   cornerRadius: number;
-  shortestSide: number;
+  shapeHeight: number;
   textAreaHeight: number;
 }

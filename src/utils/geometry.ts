@@ -4,38 +4,33 @@
  */
 
 import {
-  OUTPUT_SIZES,
+  CANVAS_SIZE,
   SHAPE_HEIGHT_RATIO,
-  SPACING,
-} from '../tokens/design-tokens';
-import type { FrameConfig, GeometryCalculation, Notch } from '../types';
+} from "../config/constants";
+import type { GeometryCalculation, Notch } from "../types";
 
 /**
  * Calculate corner radius - Fixed at 10% of shape height
  */
-export function calculateCornerRadius(
-  _width: number,
-  shapeHeight: number
-): number {
-  return shapeHeight * 0.10; // 10% of shape height
+export function calculateCornerRadius(shapeHeight: number): number {
+  return shapeHeight * 0.10;
 }
 
 /**
  * Calculate all geometric properties for a frame
  */
-export function calculateGeometry(config: FrameConfig): GeometryCalculation {
-  const size = OUTPUT_SIZES[config.outputSize];
-  const { width, height } = size;
+export function calculateGeometry(): GeometryCalculation {
+  const width = CANVAS_SIZE;
+  const height = CANVAS_SIZE;
   const shapeHeight = height * SHAPE_HEIGHT_RATIO;
-  const shortestSide = Math.min(width, shapeHeight);
-  const cornerRadius = calculateCornerRadius(width, shapeHeight);
+  const cornerRadius = calculateCornerRadius(shapeHeight);
   const textAreaHeight = height * (1 - SHAPE_HEIGHT_RATIO);
-  
+
   return {
     width,
     height,
     cornerRadius,
-    shortestSide,
+    shapeHeight,
     textAreaHeight,
   };
 }
@@ -66,10 +61,10 @@ export function generateFramePath(
   const r = radius;
   
   // Find notches by position (use actual calculated sizes)
-  const tlNotch = notches.find(n => n.corner === 'TOP_LEFT');
-  const trNotch = notches.find(n => n.corner === 'TOP_RIGHT');
-  const brNotch = notches.find(n => n.corner === 'BOTTOM_RIGHT');
-  const blNotch = notches.find(n => n.corner === 'BOTTOM_LEFT');
+  const tlNotch = notches.find(n => n.corner === "top-left");
+  const trNotch = notches.find(n => n.corner === "top-right");
+  const brNotch = notches.find(n => n.corner === "bottom-right");
+  const blNotch = notches.find(n => n.corner === "bottom-left");
   
   // Calculate appropriate corner radius for each notch
   const nrTL = tlNotch ? getNotchCornerRadius(tlNotch, r) : 0;
@@ -167,63 +162,4 @@ export function generateFramePath(
   path.push('Z');
   
   return path.join(' ');
-}
-
-/**
- * Validate notch configuration
- */
-export function validateNotches(notches: Notch[]): boolean {
-  if (notches.length > 3) return false;
-  
-  // Check for duplicates
-  const corners = notches.map(n => n.corner);
-  const uniqueCorners = new Set(corners);
-  if (uniqueCorners.size !== corners.length) return false;
-  
-  return true;
-}
-
-/**
- * Calculate notch dimensions based on pill content
- * Notch should have equal padding around the pill
- */
-export function calculateNotchDimensions(
-  pillWidth: number,
-  pillHeight: number,
-  padding: number = 16
-): { width: number; height: number } {
-  return {
-    width: pillWidth + padding * 2,
-    height: pillHeight + padding * 2,
-  };
-}
-
-/**
- * Calculate pill position - pills sit INSIDE notches with equal padding
- */
-export function calculatePillPositionInNotch(
-  padding: number = 16
-): { x: number; y: number } {
-  return {
-    x: padding,
-    y: padding,
-  };
-}
-
-/**
- * Calculate text area position and dimensions
- */
-export function calculateTextAreaDimensions(
-  width: number,
-  height: number,
-  textAreaHeight: number
-): { x: number; y: number; width: number; height: number } {
-  const padding = SPACING.TEXT_AREA_PADDING;
-  
-  return {
-    x: padding,
-    y: height - textAreaHeight,
-    width: width - padding * 2,
-    height: textAreaHeight - padding,
-  };
 }
